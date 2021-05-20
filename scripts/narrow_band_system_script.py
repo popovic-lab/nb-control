@@ -1,7 +1,7 @@
 # Python 2.7
-# 2020-09-04
+# 2021-05-19
 
-# Version 4.0.0
+# Version 4.0.1
 
 # Leonardo Fortaleza (leonardo.fortaleza@mail.mcgill.ca)
 
@@ -77,7 +77,6 @@ MeasParameters ={
 
                     "data_file" : "%UserProfile%/Documents/Documents McGill/Data/PScope/DATE/Phantom PHA/ANG deg/Plug PLU/Rep REP/Iter ITE/Phantom PHA Plug PLU ANG deg ANTPAIR FREQMHz Rep REP Iter ITE.adc",
                     "fft_file" : "%UserProfile%/Documents/Documents McGill/Data/PScope/DATE/Phantom PHA/ANG deg/Plug PLU/Rep REP/Iter ITE/Phantom PHA Plug PLU ANG deg ANTPAIR FREQMHz Rep REP Iter ITE.fft",
-                    "freq_set_file" : "%UserProfile%\\Documents\\Documents McGill\\Data\\PLL Wizard Screenshots\\Set Files\\new design1 FREQMHz 12_5MHz RFOUT.pllset",
 
                     "cal_data_file" : "%UserProfile%/Documents/Documents McGill/Data/PScope/DATE/Calibration/Type TYPE/Rep REP/Iter ITE/Calibration Rep REP Iter ITE.adc",
                     "cal_fft_file" : "%UserProfile%/Documentsy/Documents McGill/Data/PScope/DATE/Calibration/Type TYPE/Rep REP/Iter ITE/Calibration Rep REP Iter ITE.fft",
@@ -185,4 +184,3 @@ nbsys.cal_system(meas_parameters = MeasParameters, cal_type  = 1, do_plot = Fals
 #MeasParameters["attRF"] = 0
 
 #nbsys.ant_sweep(meas_parameters = MeasParameters, do_plot = False, do_FFT = False, save_json = True, display = False)
-#nbsys.ant_sweep_alt(meas_parameters = MeasParameters, do_plot = False, do_FFT = False, save_json = True, display = False)
