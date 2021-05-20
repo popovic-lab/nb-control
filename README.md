@@ -34,7 +34,7 @@ Modules were written for Windows OS.
 
 # Installation Instructions
 
-## Install Anaconda
+## 1.0) Install Anaconda
 
 Instructions can be found on:
 
@@ -44,7 +44,7 @@ Current Anaconda builds use Python 3 by default and it is recommended to install
 
 A virtual environment using Python 2.7 will be used.
 
-### Environment
+### 1.1) Environment
 
 These modules use Python 2.7 with a conda virtual environment whose packages list is stored in the `narrowband.yml` file, found in the `env/` folder.
 
@@ -63,7 +63,7 @@ To create/install the specified environment:
 If you perform changes afterwards, to export a modified environment with only the user selected packages:  
 ``` conda env export --from-history > narrowband.yml ```
 
-## Install Code Editor (Visual Studio Code preferred)
+## 2.0) Install Code Editor (Visual Studio Code preferred)
 
 https://code.visualstudio.com/docs/setup/setup-overview
 
@@ -73,7 +73,7 @@ https://code.visualstudio.com/docs/editor/extension-marketplace
 
 https://marketplace.visualstudio.com/items?itemName=ms-python.python
 
-### Powershell (optional)
+### 2.1) Powershell (optional)
 
 VSCode also suggests installing the latest Powershell Terminal (as of this writing, v7.1):
 
@@ -105,7 +105,7 @@ Further reading on Python with VSCode:
 
 https://code.visualstudio.com/docs/python/python-tutorial
 
-## Install Linear Lab Tools (64-bit) for Python
+## 3.0) Install Linear Lab Tools (64-bit) for Python
 
 DC receiver control requires this package from Linear Technology (now part of Analog Devices).
 
