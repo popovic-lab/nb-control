@@ -16,7 +16,7 @@ Modules were written for Windows OS.
 * Anaconda package with Python 2.7
 * Source-code editor (Python) of choice, suggest Visual Studio Code (VSCode)
 
-## Third Party Modules required (conda install):
+## Third Party Modules required (conda install) - Already included in the conda virtual environment:
 
 * glob2
 * matplotlib
@@ -42,7 +42,7 @@ https://docs.anaconda.com/anaconda/install/
 
 Current Anaconda builds use Python 3 by default and it is recommended to install the latest version. 
 
-A virtual environment using Python 2.7 will be used (see sections below).
+A virtual environment using Python 2.7 will be used.
 
 ### Environment
 
@@ -103,6 +103,18 @@ Upon first use with a Python file, VSCode should ask you which interpreter and c
 Further reading on Python with VSCode:
 
 https://code.visualstudio.com/docs/python/python-tutorial
+
+## Install Linear Lab Tools (64-bit) for Python
+
+DC receiver control requires this package from Linear Technology (now part of Analog Devices).
+
+The modules expect the installation path to be:
+
+```'%UserProfile%/Documents/linear_technology/linear_lab_tools64/'```
+
+https://www.analog.com/en/design-center/evaluation-hardware-and-software/evaluation-development-platforms/linearlab-tools.html
+
+https://www.analog.com/media/en/engineering-tools/design-tools/linearlabtools_python_install_instructions.pdf
 
 # Use with VSCode
 
