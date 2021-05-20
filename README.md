@@ -46,15 +46,15 @@ A virtual environment using Python 2.7 will be used.
 
 ### Environment
 
-These modules use Python 2.7 with a conda virtual environment whose packages list is stored in the narrowband.yml file, found in the env/ folder.
+These modules use Python 2.7 with a conda virtual environment whose packages list is stored in the narrowband.yml file, found in the `env/` folder.
 
 Open the Anaconda Prompt with administrator rights.
 
 To navigate to the correct folder:
 
-``` cd/```
+``` > cd/```
 
-``` cd Your-Path-Here/nb-control/env/```
+``` > cd Your-Path-Here/nb-control/env/```
 
 To create/install the specified environment:
 
@@ -99,7 +99,7 @@ https://docs.anaconda.com/anaconda/user-guide/tasks/integration/python-vsc/
 
 https://code.visualstudio.com/docs/python/environments
 
-Upon first use with a Python file, VSCode should ask you which interpreter and conda environment to use and you should select Python 2.7.x 64-bit : ('narrowband' : conda).
+Upon first use with a Python file, VSCode should ask you which interpreter and conda environment to use and you should select `Python 2.7.x 64-bit : ('narrowband' : conda)`.
 
 Further reading on Python with VSCode:
 
@@ -119,13 +119,13 @@ https://www.analog.com/media/en/engineering-tools/design-tools/linearlabtools_py
 
 # Use with VSCode
 
-Open a new workspace and the folder "nb-control/". Then open the file 'narrow_band_system_script.py'.
+Open a new workspace and the folder `nb-control/`. Then open the file `narrow_band_system_script.py`.
 
-The script should be configured in the "MeasParameters" dictionary and the "Phantom details - Reinforcing values" sections. 
+The script should be configured in the `MeasParameters` dictionary and the `Phantom details - Reinforcing values` sections. 
 
-The script should be manually edited after each mesurement, by uncommenting the appropriate lines and commenting (with a "#") the other lines in the calibration rounds and actual measurements lines.
+The script should be manually edited after each mesurement, by uncommenting the appropriate lines and commenting (with a `#`) the other lines in the calibration rounds and actual measurements lines.
 
-Before running the script, the USB hub should be connected between computer and narrowband system. The latter also needs to be powered on (ATTENTION to the voltages!).
+Before running the script, the USB hub should be connected between computer and narrowband system. The latter also needs to be powered on (**ATTENTION** to the voltages!).
 
 To run the file in terminal, either click on the play button in the top-right side of the editor or
 right-click anywhere in the editor window and select 'Run Python file in terminal'.
