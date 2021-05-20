@@ -56,9 +56,9 @@ Open the Anaconda Prompt with administrator rights.
 
 To navigate to the correct folder:
 
-``` > cd/```
+``` cd/```
 
-``` > cd Your-Path-Here/nb-control/env/```
+``` cd Your-Path-Here/nb-control/env/```
 
 To create/install the specified environment:
 
