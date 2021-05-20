@@ -15,11 +15,12 @@ Written by: Leonardo Fortaleza
 from datetime import datetime
 import itertools as it
 
+# in case the modules need to be inserted in system path (script folder outside rest of module):
+# may replace 'os.path.dirname(os.path.abspath(__file__))' with 'os.path.abspath('%UserProfile%/Documents/nb-control/')' or another path as required
+sys.path.insert(1, os.path.dirname(os.path.abspath(__file__)))
+
 # Local application imports
 import NarrowBand.system as nbsys
-
-# in case the modules need to be inserted in system path (edit folder path as required):
-#sys.path.insert(1,'%UserProfile%/Documents/nb-control/')
 
 now = datetime.now()
 
