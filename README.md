@@ -46,7 +46,7 @@ A virtual environment using Python 2.7 will be used.
 
 ### Environment
 
-These modules use Python 2.7 with a conda virtual environment whose packages list is stored in the narrowband.yml file, found in the `env/` folder.
+These modules use Python 2.7 with a conda virtual environment whose packages list is stored in the `narrowband.yml` file, found in the `env/` folder.
 
 Open the Anaconda Prompt with administrator rights.
 
