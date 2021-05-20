@@ -1,0 +1,31 @@
+name: narrowband
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - pathlib
+  - glob2
+  - tabulate
+  - pyautogui
+  - pywin32
+  - numpy
+  - pathlib2
+  - scipy
+  - six
+  - openssl
+  - hdf5
+  - pylint
+  - python=2.7
+  - natsort
+  - seaborn
+  - pyserial
+  - h5py
+  - pywinauto
+  - matplotlib
+  - pandas
+  - pip
+  - jsonpickle
+  - ipykernel
+  - tqdm
+  - yaspin
+prefix: %UserProfile%\anaconda3\envs\narrowband
