@@ -32,7 +32,7 @@ Modules were written for Windows OS.
 
 (the environment includes other packages that may not be used in the current version of the modules)
 
-# Installation Instructions
+# Installation Instructions (installation order not strict)
 
 ## 1.0) Install Anaconda
 
@@ -44,7 +44,11 @@ Current Anaconda builds use Python 3 by default and it is recommended to install
 
 A virtual environment using Python 2.7 will be used.
 
-### 1.1) Environment
+### 1.1) Download the `nb-control` package
+
+Download and unpack the folder in the desired location.
+
+### 1.2) Environment
 
 These modules use Python 2.7 with a conda virtual environment whose packages list is stored in the `narrowband.yml` file, found in the `env/` folder.
 
@@ -116,6 +120,7 @@ The modules expect the installation path to be:
 https://www.analog.com/en/design-center/evaluation-hardware-and-software/evaluation-development-platforms/linearlab-tools.html
 
 https://www.analog.com/media/en/engineering-tools/design-tools/linearlabtools_python_install_instructions.pdf
+
 
 # Use with VSCode
 
