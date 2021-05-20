@@ -25,7 +25,7 @@
 	those of the authors and should not be interpreted as representing official
 	policies, either expressed or implied, of Linear Technology Corp.
 
-	Adapted by: Leonardo Fortaleza and Anne-Marie Zaccarin
+	Adapted by: Leonardo Fortaleza
 
 	Description:
 		The purpose of this module is to provide FFT of collected data with PScope compatible window formats
