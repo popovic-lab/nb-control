@@ -46,7 +46,12 @@ from datetime import datetime
 import json
 import os, sys
 import time
-sys.path.insert(1,'%UserProfile%/Documents/linear_technology/linear_lab_tools64/python/')
+
+# checks proper folder for Linear Lab Tools and adds to path
+lltpath = '%UserProfile%/Documents/Analog Devices/linear_lab_tools64/python/'
+if not os.path.exists(os.path.dirname(lltpath)):
+    lltpath = '%UserProfile%/Documents/linear_technology/linear_lab_tools64/python/'
+sys.path.insert(1,lltpath)
 
 # Third-party imports
 import numpy as np
