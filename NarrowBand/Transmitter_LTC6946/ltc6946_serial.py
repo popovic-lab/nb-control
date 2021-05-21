@@ -76,13 +76,13 @@ def scan():
             pass
     return available
 
-class DC590B(object):
+class DC590B(object, verbose=False):
     """Hardware-based SPI implementation for the DC590B demo board controller with
     select frequency setting routine for the LTC6946.
 
     """
 
-    def __init__(self, verbose=False):
+    def __init__(self, verbose=verbose):
         self.open(verbose)
 
     def __del__(self):
@@ -94,7 +94,7 @@ class DC590B(object):
     def __exit__(self, a, b, c):
         self.close()
 
-    def open(self, verbose=False):
+    def open(self, verbose=verbose):
         """Locates and opens DC590 COM port.
         """
         if verbose:
@@ -106,8 +106,7 @@ class DC590B(object):
             print "\nLooking for DC590B ..."
         for x in range(0,number_of_ports):
             # Opens the port
-            self.port = serial.Serial(ports[x][1], 9600, timeout = 0.5)
-            #time.sleep(2)   # A delay is needed for the DC590B to reset (is it really?)
+            self.port = serial.Serial(ports[x][1], 9600, timeout = 0.5, write_timeout = 0.5)
             try:
                 id_dc590 = self.port.read(50) # Remove the hello from buffer
 
@@ -264,9 +263,7 @@ class DC590B(object):
                 self.port.write("xS04S0AX") # Initially keep RFOUT muted.
             else:
                 self.port.write("xS" + addr_list[index] + "S" + msg[index] + "X")
-            #time.sleep(0.08)
         self.port.write("xS" + addr_list[1] + "S" + msg[1] + "X")
-        #time.sleep(0.08)
         if verbose:
             print "\rFrequency Set: {} MHz                         ".format(freq)
 
@@ -345,6 +342,7 @@ class DC590B(object):
                 if verbose:
                     print "\nPLL Not Locked!\n"
                 return 0
+                
 
 
 if __name__ == '__main__':

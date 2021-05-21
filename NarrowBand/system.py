@@ -1,8 +1,8 @@
 # Python 2.7
 # 2020-09-04
 
-# Version 4.0.1
-# Last updated on 2021-05-19
+# Version 4.0.2
+# Last updated on 2021-08-11
 
 # Leonardo Fortaleza (leonardo.fortaleza@mail.mcgill.ca)
 
@@ -46,11 +46,17 @@ from datetime import datetime
 import json
 import os, sys
 import time
-sys.path.insert(1,'%UserProfile%/Documents/linear_technology/linear_lab_tools64/python/')
+
+# checks proper folder for Linear Lab Tools and adds to path
+lltpath = '%UserProfile%/Documents/Analog Devices/linear_lab_tools64/python/'
+if not os.path.exists(os.path.dirname(lltpath)):
+    lltpath = '%UserProfile%/Documents/linear_technology/linear_lab_tools64/python/'
+sys.path.insert(1,lltpath)
 
 # Third-party imports
 import numpy as np
 from timeit import default_timer as timer
+from tqdm.auto import tqdm
 
 # Local  Linear Technology imports
 import llt.common.constants as consts
@@ -162,25 +168,23 @@ def ant_sweep(meas_parameters, window = 'hann', do_plot = False, do_FFT = False,
     fctrl = fsynth.DC590B()
 
     with Dc1513bAa(spi_registers, verbose) as controller:
-        for j in range(1,ite+1):
-            print "Iteration: ", j
+        pbar = tqdm(range(1,ite+1), leave= True)
+        for j in pbar:
+            pbar.set_description("Iteration: %i" % j)
             ite_start = timer()
-            for (TX, RX) in pairs:
-                #print "Switching to Pair: Tx - ", TX, ", Rx - ", RX,  "\n"
+            for (TX, RX) in tqdm(pairs, leave= False):
                 swm.set_pair(TX, RX)
-                for i in range(0,len(freq_range)):
+                pbar2 = tqdm( range(0,len(freq_range)) , leave= False)
+                for i in pbar2:
                     f_cur = freq_range[i]
-                    #print "\rSwitching to input frequency: {} MHz \n".format(f_cur)
-                    if display:
-                        print "\rSwitching to Pair: Tx - ", TX, ", Rx - ", RX, " @ ", f_cur, " MHz        ",
+                    pbar2.set_description("Tx - %i Rx - %i @ %s MHz" % (TX, RX, f_cur))
                     fctrl.freq_set(freq = f_cur, verbose=verbose)
-                    #time.sleep(0.1)
                     data_file= _generate_file_path2(meas_parameters = meas_parameters, antenna_pair = "Tx {0:d} Rx {1:d}".format(TX,RX))
                     if not os.path.exists(os.path.dirname(data_file.replace("ITE",str(j)))):
                         os.makedirs(os.path.dirname(data_file.replace("ITE",str(j))))
                     ch0,ch1 = controller.collect(num_samples, consts.TRIGGER_NONE)
                     if do_plot:
-                        print "\rPlotting for input frequency: {} MHz".format(f_cur),
+                        tqdm.write("\rPlotting for input frequency: {} MHz".format(f_cur), end="")
                         rfft.plot_channels(controller.get_num_bits(), window,
                                             ch0, ch1,
                                             verbose=verbose)
@@ -198,7 +202,6 @@ def ant_sweep(meas_parameters, window = 'hann', do_plot = False, do_FFT = False,
     fctrl.freq_set(freq = "0", verbose=verbose)
     end = timer()
     meas_parameters["meas_duration"] = str(end - start)
-    print "\rArray Measurement Time: ", meas_parameters["meas_duration"], "seconds        \n"
 
     if save_json:
         meas_parameters["end"] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
@@ -287,24 +290,23 @@ def ant_sweep_alt(meas_parameters, window = 'hann', do_plot = False, do_FFT = Fa
     fctrl = fsynth.DC590B()
 
     with Dc1513bAa(spi_registers, verbose) as controller:
-        for j in range(1,ite+1):
-            print "Iteration: ", j
+        pbar = tqdm(range(1,ite+1), leave= True)
+        for j in pbar:
+            pbar.set_description("Iteration: %i" % j)
             ite_start = timer()
-            for i in range(0,len(freq_range)):
+            for i in tqdm(range(0,len(freq_range))):
                 f_cur = freq_range[i]
-                #print "\rSwitching to input frequency: {} MHz \n".format(f_cur)
                 fctrl.freq_set(freq = f_cur, verbose=verbose)
-                #time.sleep(0.1)
-                for (TX, RX) in pairs:
-                    if display:
-                        print "\rSwitching to Pair: Tx - ", TX, ", Rx - ", RX, " @ ", f_cur, " MHz        ",
+                pbar2 = tqdm( pairs , leave= False)
+                for (TX, RX) in pbar2:
+                    pbar2.set_description("Tx - %i Rx - %i @ %s MHz" % (TX, RX, f_cur))
                     swm.set_pair(TX, RX)
                     data_file= _generate_file_path2(meas_parameters = meas_parameters, antenna_pair = "Tx {0:d} Rx {1:d}".format(TX,RX))
                     if not os.path.exists(os.path.dirname(data_file.replace("ITE",str(j)))):
                         os.makedirs(os.path.dirname(data_file.replace("ITE",str(j))))
                     ch0,ch1 = controller.collect(num_samples, consts.TRIGGER_NONE)
                     if do_plot:
-                        print "\rPlotting for input frequency: {} MHz".format(f_cur),
+                        tqdm.write("\rPlotting for input frequency: {} MHz".format(f_cur), end="")
                         rfft.plot_channels(controller.get_num_bits(), window,
                                             ch0, ch1,
                                             verbose=verbose)
@@ -322,7 +324,6 @@ def ant_sweep_alt(meas_parameters, window = 'hann', do_plot = False, do_FFT = Fa
     fctrl.freq_set(freq = "0", verbose=verbose)
     end = timer()
     meas_parameters["meas_duration"] = str(end - start)
-    print "\rArray Measurement Time: ", meas_parameters["meas_duration"], "seconds        \n"
 
     if save_json:
         meas_parameters["end"] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
@@ -403,15 +404,16 @@ def cal_system(meas_parameters, do_plot = False, cal_type  = 1, do_FFT = False, 
     if cal_type == 1:
         del meas_parameters["pairs"]
 
-        for j in range(1,ite+1):
-            print "Iteration: ", j
+        pbar = tqdm(range(1,ite+1), leave= True)
+        for j in pbar:
+            pbar.set_description("Iteration: %i" % j)
             ite_start = timer()
             if not os.path.exists(os.path.dirname(data_file.replace("ITE",str(j)))):
                     os.makedirs(os.path.dirname(data_file.replace("ITE",str(j))))
             with Dc1513bAa(spi_registers, verbose) as controller:
                 ch0,ch1 = controller.collect(num_samples, consts.TRIGGER_NONE)
                 if do_plot:
-                    print("\rPlotting calibration for grounded LO and RF:"),
+                    tqdm.write("\rPlotting calibration for grounded LO and RF:", end="")
                     rfft.plot_channels(controller.get_num_bits(), window, 
                                         ch0, ch1,
                                         verbose=verbose)
@@ -432,17 +434,20 @@ def cal_system(meas_parameters, do_plot = False, cal_type  = 1, do_FFT = False, 
         fctrl = fsynth.DC590B()
 
         with Dc1513bAa(spi_registers, verbose) as controller:
-            for j in range(1,ite+1):
-                print "Iteration: ", j
+            pbar = tqdm(range(1,ite+1), leave= True)
+            for j in pbar:
+                pbar.set_description("Iteration: %i" % j)
                 ite_start = timer()
-                for i in range(0,len(freq_range)):
+                pbar2 = tqdm( range(0,len(freq_range)) , leave= False)
+                for i in pbar2:
                     f_cur = freq_range[i]
+                    pbar2.set_description("Calibration Type 2 @ %s MHz" % f_cur)
                     fctrl.freq_set(freq = f_cur, verbose=verbose)
                     if not os.path.exists(os.path.dirname(data_file.replace("ITE",str(j)))):
                         os.makedirs(os.path.dirname(data_file.replace("ITE",str(j))))
                     ch0,ch1 = controller.collect(num_samples, consts.TRIGGER_NONE)
                     if do_plot:
-                        print("\rPlotting calibration for RF grounded and LO with input frequency: {} MHz".format(f_cur)),
+                        tqdm.write("\rPlotting calibration for RF grounded and LO with input frequency: {} MHz".format(f_cur), end="")
                         rfft.plot_channels(controller.get_num_bits(), window, ch0, ch1, verbose=verbose)
                     rfft.save_for_pscope(data_file.replace("ITE",str(j)).replace(".adc"," LO FREQMHz RF GND.adc".replace("FREQ",f_cur)),
                                         controller.num_bits, controller.is_bipolar, num_samples, 'DC_1513B-AA', 'LTM9004', ch0, ch1)
@@ -461,17 +466,20 @@ def cal_system(meas_parameters, do_plot = False, cal_type  = 1, do_FFT = False, 
         fctrl = fsynth.DC590B()
 
         with Dc1513bAa(spi_registers, verbose) as controller:
-            for j in range(1,ite+1):
-                print "Iteration: ", j
+            pbar = tqdm(range(1,ite+1), leave= True)
+            for j in pbar:
+                pbar.set_description("Iteration: %i" % j)
                 ite_start = timer()
-                for i in range(0,len(freq_range)):
+                pbar2 = tqdm( range(0,len(freq_range)) , leave= False)
+                for i in pbar2:
                     f_cur = freq_range[i]
+                    pbar2.set_description("Calibration Type 3 @ %s MHz" % f_cur)
                     fctrl.freq_set(freq = f_cur, verbose=verbose)
                     if not os.path.exists(os.path.dirname(data_file.replace("ITE",str(j)))):
                         os.makedirs(os.path.dirname(data_file.replace("ITE",str(j))))
                     ch0,ch1 = controller.collect(num_samples, consts.TRIGGER_NONE)
                     if do_plot:
-                        print("\rPlotting calibration for RF connected directly to Rx-Tx and LO with input frequency: {} MHz".format(f_cur)),
+                        tqdm.write("\rPlotting calibration for RF connected directly to Rx-Tx and LO with input frequency: {} MHz".format(f_cur), end="")
                         rfft.plot_channels(controller.get_num_bits(), window,
                                             ch0, ch1,
                                             verbose=verbose)
@@ -492,21 +500,24 @@ def cal_system(meas_parameters, do_plot = False, cal_type  = 1, do_FFT = False, 
         fctrl = fsynth.DC590B()
 
         with Dc1513bAa(spi_registers, verbose) as controller:
-            for j in range(1,ite+1):
-                print "Iteration: ", j
+            pbar = tqdm(range(1,ite+1), leave= True)
+            for j in pbar:
+                pbar.set_description("Iteration: %i" % j)
                 ite_start = timer()
-                for i in range(0,len(freq_range)):
+                for i in tqdm( range(0,len(freq_range)) , leave= False):
                     f_cur = freq_range[i]
+                    pbar2.set_description("Calibration Type 4 @ %s MHz" % f_cur)
                     fctrl.freq_set(freq = f_cur, verbose=verbose)
-                    for (TX, RX) in pairs:
-                        print "Switching to Pair: Tx - ", TX, ", Rx - ", RX, "\n"
+                    pbar2 = tqdm(pairs, leave= False)
+                    for (TX, RX) in pbar2:
+                        pbar2.set_description("Cal Type 4: Tx - %i Rx - %i @ %s MHz" % (TX, RX, f_cur))
                         swm.set_pair(TX, RX)
                         data_file= _generate_file_path2(meas_parameters = meas_parameters, antenna_pair = "Tx {0:d} Rx {1:d}".format(TX,RX))
                         if not os.path.exists(os.path.dirname(data_file.replace("ITE",str(j)))):
                             os.makedirs(os.path.dirname(data_file.replace("ITE",str(j))))
                         ch0,ch1 = controller.collect(num_samples, consts.TRIGGER_NONE)
                         if do_plot:
-                            print("\rPlotting calibration for RF connected directly to Rx-Tx and LO with input frequency: {} MHz".format(f_cur)),
+                            tqdm.write("\rPlotting calibration for RF connected directly to Rx-Tx and LO with input frequency: {} MHz".format(f_cur), end="")
                             rfft.plot_channels(controller.get_num_bits(), window,
                                                 ch0, ch1,
                                                 verbose=verbose)
@@ -524,7 +535,6 @@ def cal_system(meas_parameters, do_plot = False, cal_type  = 1, do_FFT = False, 
 
     end = timer()
     meas_parameters["cal_duration"] = end - start
-    print "Calibration Time: ", meas_parameters["cal_duration"], "seconds                                \n"
 
     if save_json:
         meas_parameters["end"] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
@@ -711,11 +721,11 @@ if __name__ == '__main__':
                     "samp_rate" : 125*1e6,
                     "fft_window" : "hann",
 
-                    "data_file" : "%UserProfile%/Documents/Documents McGill/Data/PScope/DATE/Phantom PHA/ANG deg/Plug PLU/Rep REP/Iter ITE/Phantom PHA Plug PLU ANG deg FREQMHz ANTPAIR Rep REP Iter ITE.adc",
-                    "fft_file" : "%UserProfile%/Documents/Documents McGill/Data/PScope/DATE/Phantom PHA/ANG deg/Plug PLU/Rep REP/Iter ITE/Phantom PHA Plug PLU ANG deg FREQMHz ANTPAIR Rep REP Iter ITE.fft",
+                    "data_file" : "{}/Documents/Documents McGill/Data/PScope/DATE/Phantom PHA/ANG deg/Plug PLU/Rep REP/Iter ITE/Phantom PHA Plug PLU ANG deg FREQMHz ANTPAIR Rep REP Iter ITE.adc".format(os.environ['USERPROFILE']),
+                    "fft_file" : "{}/Documents/Documents McGill/Data/PScope/DATE/Phantom PHA/ANG deg/Plug PLU/Rep REP/Iter ITE/Phantom PHA Plug PLU ANG deg FREQMHz ANTPAIR Rep REP Iter ITE.fft".format(os.environ['USERPROFILE']),
 
-                    "cal_data_file" : "%UserProfile%/Documents/Documents McGill/Data/PScope/DATE/Calibration/Type TYPE/Rep REP/Iter ITE/Calibration Iter ITE.adc",
-                    "cal_fft_file" : "%UserProfile%/Documents/Documents McGill/Data/PScope/DATE/Calibration/Type TYPE/Rep REP/Iter ITE/Calibration Iter ITE.fft",
+                    "cal_data_file" : "{}/Documents/Documents McGill/Data/PScope/DATE/Calibration/Type TYPE/Rep REP/Iter ITE/Calibration Iter ITE.adc".format(os.environ['USERPROFILE']),
+                    "cal_fft_file" : "{}/Documents/Documents McGill/Data/PScope/DATE/Calibration/Type TYPE/Rep REP/Iter ITE/Calibration Iter ITE.fft".format(os.environ['USERPROFILE']),
 
                     "folder_path" : None,
                     "file_name" : None,
