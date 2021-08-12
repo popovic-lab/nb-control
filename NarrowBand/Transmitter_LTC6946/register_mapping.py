@@ -85,7 +85,7 @@ regs = {  "1550":  'xS02S04S0AS00S19S24S54S63SFBSDBSC0XxS04S08X',
           "3150":  'xS02S04S0AS00S19S18S9CS63SF9SDBSC0XxS04S08X',
           "3200":  'xS02S04S0AS00S19S19S00S63SF9SDBSC0XxS04S08X',
           "0":     'xS02S04S0AS00S19S22S60S63SFASDBSC0X'}
-         
+
 def register_values(freq):
     """Return string with register settings in SPI burst format for a given frequency.
 
@@ -133,7 +133,7 @@ def register_values_list(freq):
             return regs[_freq2str(freq)]
         except KeyError:
             print "Not a valid frequency!"
-        
+
  def _freq2str(freq_num):
 	"""Convert numeric or string frequency value in MHz (freq_num) to compatible string value.
 

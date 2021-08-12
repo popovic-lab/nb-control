@@ -1,7 +1,8 @@
 # Python 2.7
 # 2021-05-19
 
-# Version 4.0.1
+# Version 4.0.2
+# Last updated on 2021-08-12
 
 # Leonardo Fortaleza (leonardo.fortaleza@mail.mcgill.ca)
 
@@ -14,6 +15,7 @@ Written by: Leonardo Fortaleza
 # Standard library imports
 from datetime import datetime
 import itertools as it
+import os, sys
 
 # in case the modules need to be inserted in system path (script folder outside rest of module):
 # may replace 'os.path.dirname(os.path.abspath(__file__))' with 'os.path.abspath('%UserProfile%/Documents/nb-control/')' or another path as required
@@ -76,11 +78,11 @@ MeasParameters ={
                     "samp_rate" : 125*1e6,
                     "fft_window" : "hann",
 
-                    "data_file" : "%UserProfile%/Documents/Documents McGill/Data/PScope/DATE/Phantom PHA/ANG deg/Plug PLU/Rep REP/Iter ITE/Phantom PHA Plug PLU ANG deg ANTPAIR FREQMHz Rep REP Iter ITE.adc",
-                    "fft_file" : "%UserProfile%/Documents/Documents McGill/Data/PScope/DATE/Phantom PHA/ANG deg/Plug PLU/Rep REP/Iter ITE/Phantom PHA Plug PLU ANG deg ANTPAIR FREQMHz Rep REP Iter ITE.fft",
+                    "data_file" : "{}/Documents/Documents McGill/Data/PScope/DATE/Phantom PHA/ANG deg/Plug PLU/Rep REP/Iter ITE/Phantom PHA Plug PLU ANG deg ANTPAIR FREQMHz Rep REP Iter ITE.adc".format(os.environ['USERPROFILE']),
+                    "fft_file" : "{}/Documents/Documents McGill/Data/PScope/DATE/Phantom PHA/ANG deg/Plug PLU/Rep REP/Iter ITE/Phantom PHA Plug PLU ANG deg ANTPAIR FREQMHz Rep REP Iter ITE.fft".format(os.environ['USERPROFILE']),
 
-                    "cal_data_file" : "%UserProfile%/Documents/Documents McGill/Data/PScope/DATE/Calibration/Type TYPE/Rep REP/Iter ITE/Calibration Rep REP Iter ITE.adc",
-                    "cal_fft_file" : "%UserProfile%/Documentsy/Documents McGill/Data/PScope/DATE/Calibration/Type TYPE/Rep REP/Iter ITE/Calibration Rep REP Iter ITE.fft",
+                    "cal_data_file" : "{}/Documents/Documents McGill/Data/PScope/DATE/Calibration/Type TYPE/Rep REP/Iter ITE/Calibration Rep REP Iter ITE.adc".format(os.environ['USERPROFILE']),
+                    "cal_fft_file" : "{}/Documentsy/Documents McGill/Data/PScope/DATE/Calibration/Type TYPE/Rep REP/Iter ITE/Calibration Rep REP Iter ITE.fft".format(os.environ['USERPROFILE']),
 
                     "date" : now.strftime("%Y_%m_%d"),
 
@@ -139,7 +141,7 @@ AntPair = "Tx 15 Rx 16"
 
 """ First calibration round:
 
-	Both LO and RF grounded with 50 ohm terminators
+	Both LO and RF grounded with 50 ohm terminators.
 	"""
 
 MeasParameters["attLO"] = "grounded"
@@ -149,8 +151,9 @@ nbsys.cal_system(meas_parameters = MeasParameters, cal_type  = 1, do_plot = Fals
 
 """ Second calibration round:
 
-	RF grounded with 50 ohm terminator, LO connected to frequency synthesizer
-	LO can use 20 dB attenuator
+	RF grounded with 50 ohm terminator, LO connected to frequency synthesizer.
+	LO can use 20 dB attenuator.
+    Remember to use 50-ohm terminator on splitter Tx.
 	"""
 
 #MeasParameters["attLO"] = 20
@@ -162,8 +165,8 @@ nbsys.cal_system(meas_parameters = MeasParameters, cal_type  = 1, do_plot = Fals
 
 """ Third calibration round:
 
-	RF connected to Rx-Tx directly by cables (bypassing antennas) and LO connected to frequency syntesizer
-	Use RF with 25 dB attenuator, LO can use 20 dB attenuator
+	RF connected to Rx-Tx directly by cables (bypassing antennas) and LO connected to frequency syntesizer.
+	Use RF with 25 dB attenuator, LO can use 20 dB attenuator.
 	"""
 
 #MeasParameters["attLO"] = 20
@@ -172,16 +175,32 @@ nbsys.cal_system(meas_parameters = MeasParameters, cal_type  = 1, do_plot = Fals
 
 #nbsys.cal_system(meas_parameters = MeasParameters, cal_type  = 3, do_plot = False, do_FFT = False, save_json = True)
 
-""" Actual measurements:
+""" Fourth calibration round:
 
-	RF connected to Rx antennas and LO connected to frequency syntesizer
-	Phantom 1: Use RF with 9 dB attenuator, LO can use 20 dB attenuator
+    Environmental noise scan. Tx after splitter with 50-ohm terminator, switching matrix Tx also terminated.
+
+	RF connected to Rx antennas and LO connected to frequency syntesizer.
+	Phantom 1: Use RF with 9 dB attenuator, LO can use 20 dB attenuator.
 
 	Phantoms with skin: Use RF without attenuator, LO can use 20 dB attenuator
 	"""
 
 #MeasParameters["attLO"] = 20
-#MeasParameters["attRF"] = 9
-#MeasParameters["attRF"] = 0
+#MeasParameters["attRF"] = 9 # skinless phantoms (1)
+#MeasParameters["attRF"] = 0 # phantoms with skin
+
+#nbsys.cal_system(meas_parameters = MeasParameters, cal_type  = 4, do_plot = False, do_FFT = False, save_json = True)
+
+""" Actual measurements:
+
+	RF connected to Rx antennas and LO connected to frequency syntesizer.
+	Phantom 1: Use RF with 9 dB attenuator, LO can use 20 dB attenuator.
+
+	Phantoms with skin: Use RF without attenuator, LO can use 20 dB attenuator.
+	"""
+
+#MeasParameters["attLO"] = 20
+#MeasParameters["attRF"] = 9 # skinless phantoms (1)
+#MeasParameters["attRF"] = 0 # phantoms with skin
 
 #nbsys.ant_sweep(meas_parameters = MeasParameters, do_plot = False, do_FFT = False, save_json = True, display = False)

@@ -342,7 +342,7 @@ class DC590B(object, verbose=False):
                 if verbose:
                     print "\nPLL Not Locked!\n"
                 return 0
-                
+
 
 
 if __name__ == '__main__':

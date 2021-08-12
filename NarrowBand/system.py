@@ -2,7 +2,7 @@
 # 2020-09-04
 
 # Version 4.0.2
-# Last updated on 2021-08-11
+# Last updated on 2021-08-12
 
 # Leonardo Fortaleza (leonardo.fortaleza@mail.mcgill.ca)
 
@@ -48,9 +48,9 @@ import os, sys
 import time
 
 # checks proper folder for Linear Lab Tools and adds to path
-lltpath = '%UserProfile%/Documents/Analog Devices/linear_lab_tools64/python/'
+lltpath = '{}/Documents/Analog Devices/linear_lab_tools64/python/'.format(os.environ['USERPROFILE'])
 if not os.path.exists(os.path.dirname(lltpath)):
-    lltpath = '%UserProfile%/Documents/linear_technology/linear_lab_tools64/python/'
+    lltpath = '{}/Documents/linear_technology/linear_lab_tools64/python/'.format(os.environ['USERPROFILE'])
 sys.path.insert(1,lltpath)
 
 # Third-party imports
@@ -177,8 +177,8 @@ def ant_sweep(meas_parameters, window = 'hann', do_plot = False, do_FFT = False,
                 pbar2 = tqdm( range(0,len(freq_range)) , leave= False)
                 for i in pbar2:
                     f_cur = freq_range[i]
-                    pbar2.set_description("Tx - %i Rx - %i @ %s MHz" % (TX, RX, f_cur))
                     fctrl.freq_set(freq = f_cur, verbose=verbose)
+                    pbar2.set_description("Tx - %i Rx - %i @ %s MHz" % (TX, RX, f_cur))
                     data_file= _generate_file_path2(meas_parameters = meas_parameters, antenna_pair = "Tx {0:d} Rx {1:d}".format(TX,RX))
                     if not os.path.exists(os.path.dirname(data_file.replace("ITE",str(j)))):
                         os.makedirs(os.path.dirname(data_file.replace("ITE",str(j))))
@@ -299,8 +299,8 @@ def ant_sweep_alt(meas_parameters, window = 'hann', do_plot = False, do_FFT = Fa
                 fctrl.freq_set(freq = f_cur, verbose=verbose)
                 pbar2 = tqdm( pairs , leave= False)
                 for (TX, RX) in pbar2:
-                    pbar2.set_description("Tx - %i Rx - %i @ %s MHz" % (TX, RX, f_cur))
                     swm.set_pair(TX, RX)
+                    pbar2.set_description("Tx - %i Rx - %i @ %s MHz" % (TX, RX, f_cur))
                     data_file= _generate_file_path2(meas_parameters = meas_parameters, antenna_pair = "Tx {0:d} Rx {1:d}".format(TX,RX))
                     if not os.path.exists(os.path.dirname(data_file.replace("ITE",str(j)))):
                         os.makedirs(os.path.dirname(data_file.replace("ITE",str(j))))
@@ -441,8 +441,8 @@ def cal_system(meas_parameters, do_plot = False, cal_type  = 1, do_FFT = False, 
                 pbar2 = tqdm( range(0,len(freq_range)) , leave= False)
                 for i in pbar2:
                     f_cur = freq_range[i]
-                    pbar2.set_description("Calibration Type 2 @ %s MHz" % f_cur)
                     fctrl.freq_set(freq = f_cur, verbose=verbose)
+                    pbar2.set_description("Calibration Type 2 @ %s MHz" % f_cur)
                     if not os.path.exists(os.path.dirname(data_file.replace("ITE",str(j)))):
                         os.makedirs(os.path.dirname(data_file.replace("ITE",str(j))))
                     ch0,ch1 = controller.collect(num_samples, consts.TRIGGER_NONE)
@@ -473,8 +473,8 @@ def cal_system(meas_parameters, do_plot = False, cal_type  = 1, do_FFT = False, 
                 pbar2 = tqdm( range(0,len(freq_range)) , leave= False)
                 for i in pbar2:
                     f_cur = freq_range[i]
-                    pbar2.set_description("Calibration Type 3 @ %s MHz" % f_cur)
                     fctrl.freq_set(freq = f_cur, verbose=verbose)
+                    pbar2.set_description("Calibration Type 3 @ %s MHz" % f_cur)
                     if not os.path.exists(os.path.dirname(data_file.replace("ITE",str(j)))):
                         os.makedirs(os.path.dirname(data_file.replace("ITE",str(j))))
                     ch0,ch1 = controller.collect(num_samples, consts.TRIGGER_NONE)
@@ -504,20 +504,19 @@ def cal_system(meas_parameters, do_plot = False, cal_type  = 1, do_FFT = False, 
             for j in pbar:
                 pbar.set_description("Iteration: %i" % j)
                 ite_start = timer()
-                for i in tqdm( range(0,len(freq_range)) , leave= False):
-                    f_cur = freq_range[i]
-                    pbar2.set_description("Calibration Type 4 @ %s MHz" % f_cur)
-                    fctrl.freq_set(freq = f_cur, verbose=verbose)
-                    pbar2 = tqdm(pairs, leave= False)
-                    for (TX, RX) in pbar2:
+                for (TX, RX) in tqdm(pairs, leave= False):
+                    swm.set_pair(TX, RX)
+                    pbar2 = tqdm(range(0,len(freq_range)) , leave= False)
+                    for i in pbar2:
+                        f_cur = freq_range[i]
+                        fctrl.freq_set(freq = f_cur, verbose=verbose)
                         pbar2.set_description("Cal Type 4: Tx - %i Rx - %i @ %s MHz" % (TX, RX, f_cur))
-                        swm.set_pair(TX, RX)
                         data_file= _generate_file_path2(meas_parameters = meas_parameters, antenna_pair = "Tx {0:d} Rx {1:d}".format(TX,RX))
                         if not os.path.exists(os.path.dirname(data_file.replace("ITE",str(j)))):
                             os.makedirs(os.path.dirname(data_file.replace("ITE",str(j))))
                         ch0,ch1 = controller.collect(num_samples, consts.TRIGGER_NONE)
                         if do_plot:
-                            tqdm.write("\rPlotting calibration for RF connected directly to Rx-Tx and LO with input frequency: {} MHz".format(f_cur), end="")
+                            tqdm.write("\rPlotting calibration for room noise with input frequency: {} MHz".format(f_cur), end="")
                             rfft.plot_channels(controller.get_num_bits(), window,
                                                 ch0, ch1,
                                                 verbose=verbose)
@@ -530,7 +529,7 @@ def cal_system(meas_parameters, do_plot = False, cal_type  = 1, do_FFT = False, 
                 if save_json and j != ite:
                     ite_end = timer()
                     meas_parameters["iter_duration"] = ite_end - ite_start
-                    meas_parameters["obs"] = "Type 4: scan of antenna pairs on air (no phantom inside the hemisphere)."
+                    meas_parameters["obs"] = "Type 4: scan of room noise, without Tx active on phantom hemisphere."
                     _save_json_cal(meas_parameters = meas_parameters, cal_type = cal_type, iteration = j)
 
     end = timer()
