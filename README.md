@@ -15,6 +15,8 @@ Modules were written for Windows OS.
 
 * Anaconda package with Python 2.7
 * Source-code editor (Python) of choice, suggest Visual Studio Code (VSCode)
+* QuikEval, PLLWizard, PScope and Linear Lab Tools from Linear Technology/Analog Devices
+* ST-LINK-V2/A USB driver from STMicroelectronics
 
 ## Third Party Modules required (conda install) - Already included in the conda virtual environment:
 
