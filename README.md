@@ -166,7 +166,7 @@ https://www.analog.com/media/en/engineering-tools/design-tools/linearlabtools_py
 
 The STM32F4 microcontroller drivers need to be installed before connecting it to the computer.
 
-*Warning:* The ST manufacturer website requires registration for downloading software tools.
+**Warning:** The ST manufacturer website requires registration for downloading software tools.
 
 The ST-LINK/V2-A USB driver can be downloaded from:
 
