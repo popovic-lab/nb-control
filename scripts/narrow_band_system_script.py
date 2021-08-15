@@ -1,8 +1,8 @@
 # Python 2.7
 # 2021-05-19
 
-# Version 4.0.2
-# Last updated on 2021-08-12
+# Version 4.0.3
+# Last updated on 2021-08-15
 
 # Leonardo Fortaleza (leonardo.fortaleza@mail.mcgill.ca)
 
@@ -81,8 +81,11 @@ MeasParameters ={
                     "data_file" : "{}/Documents/Documents McGill/Data/PScope/DATE/Phantom PHA/ANG deg/Plug PLU/Rep REP/Iter ITE/Phantom PHA Plug PLU ANG deg ANTPAIR FREQMHz Rep REP Iter ITE.adc".format(os.environ['USERPROFILE']),
                     "fft_file" : "{}/Documents/Documents McGill/Data/PScope/DATE/Phantom PHA/ANG deg/Plug PLU/Rep REP/Iter ITE/Phantom PHA Plug PLU ANG deg ANTPAIR FREQMHz Rep REP Iter ITE.fft".format(os.environ['USERPROFILE']),
 
-                    "cal_data_file" : "{}/Documents/Documents McGill/Data/PScope/DATE/Calibration/Type TYPE/Rep REP/Iter ITE/Calibration Rep REP Iter ITE.adc".format(os.environ['USERPROFILE']),
-                    "cal_fft_file" : "{}/Documentsy/Documents McGill/Data/PScope/DATE/Calibration/Type TYPE/Rep REP/Iter ITE/Calibration Rep REP Iter ITE.fft".format(os.environ['USERPROFILE']),
+                    "cal_data_file" : "{}/Documents/Documents McGill/Data/PScope/DATE/Calibration/Type TYPE/Rep REP/Iter ITE/Calibration Type TYPE Rep REP Iter ITE.adc".format(os.environ['USERPROFILE']),
+                    "cal_fft_file" : "{}/Documentsy/Documents McGill/Data/PScope/DATE/Calibration/Type TYPE/Rep REP/Iter ITE/Calibration Type TYPE Rep REP Iter ITE.fft".format(os.environ['USERPROFILE']),
+
+                    "cal_ph_data_file" : "{}/Documents/Documents McGill/Data/PScope/DATE/Calibration/Type TYPE/Phantom PHA/ANG deg/Plug PLU/Rep REP/Iter ITE/Calibration Type TYPE Phantom PHA Plug PLU ANG deg FREQMHz ANTPAIR Rep REP Iter ITE.adc".format(os.environ['USERPROFILE']),
+                    "cal_ph_fft_file" : "{}/Documents/Documents McGill/Data/PScope/DATE/Calibration/Type TYPE/Phantom PHA/ANG deg/Plug PLU/Rep REP/Iter ITE/Calibration Type TYPE Phantom PHA Plug PLU ANG deg FREQMHz ANTPAIR Rep REP Iter ITE.fft".format(os.environ['USERPROFILE']),
 
                     "date" : now.strftime("%Y_%m_%d"),
 
@@ -119,7 +122,7 @@ MeasParameters ={
 # Edit the pertinent parts here!
 
 # 1 - Phantom details (Phantom, Angle, Plug, Repetition), how many sequential Iterations, observations.
-# 2 - Calibration sequence (types 1, 2, 3)
+# 2 - Calibration sequence (types 1, 2, 3, 4)
 # 3 - Phantom scan sequence
 #-------------------------------------------------------------------------------------------------------------------------------------------------------------------
 

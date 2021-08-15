@@ -1,8 +1,8 @@
 # Python 2.7
 # 2020-09-04
 
-# Version 4.0.2
-# Last updated on 2021-08-12
+# Version 4.0.3
+# Last updated on 2021-08-15
 
 # Leonardo Fortaleza (leonardo.fortaleza@mail.mcgill.ca)
 
@@ -396,8 +396,9 @@ def cal_system(meas_parameters, do_plot = False, cal_type  = 1, do_FFT = False, 
     if save_json:
         meas_parameters["type"] =  "calibration configuration parameters"
 
-        for key in ["Phantom", "Angle", "Plug", "data_file", "fft_file"]:
-            del meas_parameters[key]
+        if cal_type < 4:
+            for key in ["Phantom", "Angle", "Plug", "data_file", "fft_file"]:
+                del meas_parameters[key]
 
     data_file = _generate_cal_file_path(meas_parameters = meas_parameters, cal_type = cal_type)
 
@@ -511,7 +512,7 @@ def cal_system(meas_parameters, do_plot = False, cal_type  = 1, do_FFT = False, 
                         f_cur = freq_range[i]
                         fctrl.freq_set(freq = f_cur, verbose=verbose)
                         pbar2.set_description("Cal Type 4: Tx - %i Rx - %i @ %s MHz" % (TX, RX, f_cur))
-                        data_file= _generate_file_path2(meas_parameters = meas_parameters, antenna_pair = "Tx {0:d} Rx {1:d}".format(TX,RX))
+                        data_file= _generate_file_path2(meas_parameters = meas_parameters, antenna_pair = "Tx {0:d} Rx {1:d}".format(TX,RX), file_path_key="cal_ph_data_file")
                         if not os.path.exists(os.path.dirname(data_file.replace("ITE",str(j)))):
                             os.makedirs(os.path.dirname(data_file.replace("ITE",str(j))))
                         ch0,ch1 = controller.collect(num_samples, consts.TRIGGER_NONE)
@@ -606,8 +607,18 @@ def _generate_cal_file_path(meas_parameters, cal_type = 1):
 
     repetition = meas_parameters["rep"]
 
+    if cal_type < 4:
+        meas_parameters["cal_data_file"] = meas_parameters["cal_data_file"].replace("DATE", date).replace("REP",str(repetition)).replace("TYPE",str(cal_type))
+    else:
 
-    meas_parameters["cal_data_file"] = meas_parameters["cal_data_file"].replace("DATE", date).replace("REP",str(repetition)).replace("TYPE",str(cal_type))
+        phantom = meas_parameters["Phantom"]
+        angle = meas_parameters["Angle"]
+        plug = meas_parameters["Plug"]
+        repetition = meas_parameters["rep"]
+
+        meas_parameters["cal_ph_data_file"] = meas_parameters["cal_ph_data_file"].replace("DATE",
+                                                    date).replace("PHA",str(phantom)).replace("ANG",str(angle)).replace("PLU",str(plug)).replace("REP",
+                                                    str(repetition)).replace("TYPE",str(cal_type))
 
     return meas_parameters["cal_data_file"]
 
@@ -723,8 +734,11 @@ if __name__ == '__main__':
                     "data_file" : "{}/Documents/Documents McGill/Data/PScope/DATE/Phantom PHA/ANG deg/Plug PLU/Rep REP/Iter ITE/Phantom PHA Plug PLU ANG deg FREQMHz ANTPAIR Rep REP Iter ITE.adc".format(os.environ['USERPROFILE']),
                     "fft_file" : "{}/Documents/Documents McGill/Data/PScope/DATE/Phantom PHA/ANG deg/Plug PLU/Rep REP/Iter ITE/Phantom PHA Plug PLU ANG deg FREQMHz ANTPAIR Rep REP Iter ITE.fft".format(os.environ['USERPROFILE']),
 
-                    "cal_data_file" : "{}/Documents/Documents McGill/Data/PScope/DATE/Calibration/Type TYPE/Rep REP/Iter ITE/Calibration Iter ITE.adc".format(os.environ['USERPROFILE']),
-                    "cal_fft_file" : "{}/Documents/Documents McGill/Data/PScope/DATE/Calibration/Type TYPE/Rep REP/Iter ITE/Calibration Iter ITE.fft".format(os.environ['USERPROFILE']),
+                    "cal_data_file" : "{}/Documents/Documents McGill/Data/PScope/DATE/Calibration/Type TYPE/Rep REP/Iter ITE/Calibration Type TYPE Rep REP Iter ITE.adc".format(os.environ['USERPROFILE']),
+                    "cal_fft_file" : "{}/Documents/Documents McGill/Data/PScope/DATE/Calibration/Type TYPE/Rep REP/Iter ITE/Calibration Type TYPE Rep REP Iter ITE.fft".format(os.environ['USERPROFILE']),
+
+                    "cal_ph_data_file" : "{}/Documents/Documents McGill/Data/PScope/DATE/Calibration/Type TYPE/Phantom PHA/ANG deg/Plug PLU/Rep REP/Iter ITE/Calibration Type TYPE Phantom PHA Plug PLU ANG deg FREQMHz ANTPAIR Rep REP Iter ITE.adc".format(os.environ['USERPROFILE']),
+                    "cal_ph_fft_file" : "{}/Documents/Documents McGill/Data/PScope/DATE/Calibration/Type TYPE/Phantom PHA/ANG deg/Plug PLU/Rep REP/Iter ITE/Calibration Type TYPE Phantom PHA Plug PLU ANG deg FREQMHz ANTPAIR Rep REP Iter ITE.fft".format(os.environ['USERPROFILE']),
 
                     "folder_path" : None,
                     "file_name" : None,
