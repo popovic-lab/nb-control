@@ -19,7 +19,9 @@ import os, sys
 
 # in case the modules need to be inserted in system path (script folder outside rest of module):
 # may replace 'os.path.dirname(os.path.abspath(__file__))' with 'os.path.abspath('%UserProfile%/Documents/nb-control/')' or another path as required
-sys.path.insert(1, os.path.dirname(os.path.abspath(__file__)))
+#sys.path.insert(1, os.path.dirname(os.path.abspath(__file__)))
+#sys.path.insert(1, os.path.dirname(os.path.abspath('{}/Documents/Github/nb-control/nb-control/'.format(os.environ['USERPROFILE']) ) ) )
+sys.path.insert(1, os.path.dirname(os.path.abspath('C:/Users/leofo/Documents/Github/nb-control/nb-control/NarrowBand') ) )
 
 # Local application imports
 import NarrowBand.system as nbsys
@@ -71,21 +73,21 @@ pairs = [(x, y) for x, y in it.product(Tx,Rx) if x != y]
 
 
 MeasParameters ={
-                    "num_samples" : 1024,
+                    "num_samples" : 512,
                     "spi_registers" : [],
                     "verbose" : False, # DC590B controller board verbosity
 
                     "samp_rate" : 125*1e6,
                     "fft_window" : "hann",
 
-                    "data_file" : "{}/Documents/Documents McGill/Data/PScope/DATE/Phantom PHA/ANG deg/Plug PLU/Rep REP/Iter ITE/Phantom PHA Plug PLU ANG deg ANTPAIR FREQMHz Rep REP Iter ITE.adc".format(os.environ['USERPROFILE']),
-                    "fft_file" : "{}/Documents/Documents McGill/Data/PScope/DATE/Phantom PHA/ANG deg/Plug PLU/Rep REP/Iter ITE/Phantom PHA Plug PLU ANG deg ANTPAIR FREQMHz Rep REP Iter ITE.fft".format(os.environ['USERPROFILE']),
+                    "data_file" : "{}/OneDrive - McGill University/Documents McGill/Data/PScope/DATE/Phantom PHA/ANG deg/Plug PLU/Rep REP/Iter ITE/Phantom PHA Plug PLU ANG deg ANTPAIR FREQMHz Rep REP Iter ITE.adc".format(os.environ['USERPROFILE']),
+                    "fft_file" : "{}/OneDrive - McGill University/Documents McGill/Data/PScope/DATE/Phantom PHA/ANG deg/Plug PLU/Rep REP/Iter ITE/Phantom PHA Plug PLU ANG deg ANTPAIR FREQMHz Rep REP Iter ITE.fft".format(os.environ['USERPROFILE']),
 
-                    "cal_data_file" : "{}/Documents/Documents McGill/Data/PScope/DATE/Calibration/Type TYPE/Rep REP/Iter ITE/Calibration Type TYPE Rep REP Iter ITE.adc".format(os.environ['USERPROFILE']),
-                    "cal_fft_file" : "{}/Documentsy/Documents McGill/Data/PScope/DATE/Calibration/Type TYPE/Rep REP/Iter ITE/Calibration Type TYPE Rep REP Iter ITE.fft".format(os.environ['USERPROFILE']),
+                    "cal_data_file" : "{}/OneDrive - McGill University/Documents McGill/Data/PScope/DATE/Calibration/Type TYPE/Rep REP/Iter ITE/Calibration Type TYPE Rep REP Iter ITE.adc".format(os.environ['USERPROFILE']),
+                    "cal_fft_file" : "{}/OneDrive - McGill University/Documents McGill/Data/PScope/DATE/Calibration/Type TYPE/Rep REP/Iter ITE/Calibration Type TYPE Rep REP Iter ITE.fft".format(os.environ['USERPROFILE']),
 
-                    "cal_ph_data_file" : "{}/Documents/Documents McGill/Data/PScope/DATE/Calibration/Type TYPE/Phantom PHA/ANG deg/Plug PLU/Rep REP/Iter ITE/Calibration Type TYPE Phantom PHA Plug PLU ANG deg FREQMHz ANTPAIR Rep REP Iter ITE.adc".format(os.environ['USERPROFILE']),
-                    "cal_ph_fft_file" : "{}/Documents/Documents McGill/Data/PScope/DATE/Calibration/Type TYPE/Phantom PHA/ANG deg/Plug PLU/Rep REP/Iter ITE/Calibration Type TYPE Phantom PHA Plug PLU ANG deg FREQMHz ANTPAIR Rep REP Iter ITE.fft".format(os.environ['USERPROFILE']),
+                    "cal_ph_data_file" : "{}/OneDrive - McGill University/Documents McGill/Data/PScope/DATE/Calibration/Type TYPE/Phantom PHA/ANG deg/Plug PLU/Rep REP/Iter ITE/Calibration Phantom PHA Plug PLU ANG deg Rep REP Iter ITE.adc".format(os.environ['USERPROFILE']),
+                    "cal_ph_fft_file" : "{}/OneDrive - McGill University/Documents McGill/Data/PScope/DATE/Calibration/Type TYPE/Phantom PHA/ANG deg/Plug PLU/Rep REP/Iter ITE/Calibration Phantom PHA Plug PLU ANG deg Rep REP Iter ITE.fft".format(os.environ['USERPROFILE']),
 
                     "date" : now.strftime("%Y_%m_%d"),
 
@@ -136,8 +138,9 @@ MeasParameters["rep"] = 1
 MeasParameters["iter"] = 5
 
 #MeasParameters["obs"] = "Baseline-only Initialization."
-MeasParameters["obs"] = "Empty hemisphere (air)."
+#MeasParameters["obs"] = "Empty hemisphere (air)."
 #MeasParameters["obs"] = "Baseline-Tumour Progress with phantom and plug re-position."
+MeasParameters["obs"] = "Baseline-Tumour Progress with plug re-position only."
 
 AntPair = "Tx 15 Rx 16"
 
@@ -162,7 +165,6 @@ nbsys.cal_system(meas_parameters = MeasParameters, cal_type  = 1, do_plot = Fals
 #MeasParameters["attLO"] = 20
 #MeasParameters["attRF"] = "grounded"
 #MeasParameters["freq_range"] = freq_cal
-
 
 #nbsys.cal_system(meas_parameters = MeasParameters, cal_type  = 2, do_plot = False, do_FFT = False, save_json = True)
 

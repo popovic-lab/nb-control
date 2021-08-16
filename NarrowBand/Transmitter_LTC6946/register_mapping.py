@@ -134,7 +134,7 @@ def register_values_list(freq):
         except KeyError:
             print "Not a valid frequency!"
 
- def _freq2str(freq_num):
+def _freq2str(freq_num):
 	"""Convert numeric or string frequency value in MHz (freq_num) to compatible string value.
 
 	Replaces dots (.) with underscores (_) for non-integers in freq_num.

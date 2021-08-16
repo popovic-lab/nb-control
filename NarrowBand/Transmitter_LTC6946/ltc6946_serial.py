@@ -76,13 +76,13 @@ def scan():
             pass
     return available
 
-class DC590B(object, verbose=False):
+class DC590B(object):
     """Hardware-based SPI implementation for the DC590B demo board controller with
     select frequency setting routine for the LTC6946.
 
     """
 
-    def __init__(self, verbose=verbose):
+    def __init__(self, verbose=False):
         self.open(verbose)
 
     def __del__(self):
@@ -94,7 +94,7 @@ class DC590B(object, verbose=False):
     def __exit__(self, a, b, c):
         self.close()
 
-    def open(self, verbose=verbose):
+    def open(self, verbose=False):
         """Locates and opens DC590 COM port.
         """
         if verbose:

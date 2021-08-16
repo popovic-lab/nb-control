@@ -33,6 +33,7 @@
 		In addition to adding new FFT based functions, it replaces the functions.plot function.
 """
 import sys
+import os
 # checks proper folder for Linear Lab Tools and adds to path
 lltpath = '%UserProfile%/Documents/Analog Devices/linear_lab_tools64/python/'
 if not os.path.exists(os.path.dirname(lltpath)):

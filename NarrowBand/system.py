@@ -1,8 +1,8 @@
 # Python 2.7
 # 2020-09-04
 
-# Version 4.0.3
-# Last updated on 2021-08-15
+# Version 4.0.2
+# Last updated on 2021-08-12
 
 # Leonardo Fortaleza (leonardo.fortaleza@mail.mcgill.ca)
 
@@ -521,10 +521,10 @@ def cal_system(meas_parameters, do_plot = False, cal_type  = 1, do_FFT = False, 
                             rfft.plot_channels(controller.get_num_bits(), window,
                                                 ch0, ch1,
                                                 verbose=verbose)
-                        rfft.save_for_pscope(data_file.replace("ITE",str(j)).replace(".adc"," LO FREQMHz Tx {0:d} Rx {1:d}.adc".format(TX,RX).replace("FREQ",f_cur)),
+                        rfft.save_for_pscope(data_file.replace("ITE",str(j)).replace(".adc"," Tx {0:d} Rx {1:d} FREQMHz.adc".format(TX,RX).replace("FREQ",f_cur)),
                                             controller.num_bits, controller.is_bipolar, num_samples, 'DC_1513B-AA', 'LTM9004', ch0, ch1)
                         if do_FFT:
-                            rfft.save_for_pscope_fft(data_file.replace(".adc",".fft").replace("ITE",str(j)).replace(".fft"," LO FREQMHz Tx {0:d} Rx {1:d}.fft".format(TX,RX).replace("FREQ",f_cur)),
+                            rfft.save_for_pscope_fft(data_file.replace(".adc",".fft").replace("ITE",str(j)).replace(".fft"," Tx {0:d} Rx {1:d} FREQMHz.fft".format(TX,RX).replace("FREQ",f_cur)),
                                                     controller.num_bits, controller.is_bipolar, num_samples, 'DC_1513B-AA', 'LTM9004', window, ch0, ch1)
 
                 if save_json and j != ite:
@@ -609,6 +609,9 @@ def _generate_cal_file_path(meas_parameters, cal_type = 1):
 
     if cal_type < 4:
         meas_parameters["cal_data_file"] = meas_parameters["cal_data_file"].replace("DATE", date).replace("REP",str(repetition)).replace("TYPE",str(cal_type))
+
+        return meas_parameters["cal_data_file"]
+
     else:
 
         phantom = meas_parameters["Phantom"]
@@ -616,11 +619,11 @@ def _generate_cal_file_path(meas_parameters, cal_type = 1):
         plug = meas_parameters["Plug"]
         repetition = meas_parameters["rep"]
 
-        meas_parameters["cal_ph_data_file"] = meas_parameters["cal_ph_data_file"].replace("DATE",
-                                                    date).replace("PHA",str(phantom)).replace("ANG",str(angle)).replace("PLU",str(plug)).replace("REP",
-                                                    str(repetition)).replace("TYPE",str(cal_type))
+        meas_parameters["cal_ph_data_file"] = meas_parameters["cal_ph_data_file"].replace("DATE", 
+                                                            date).replace("PHA",str(phantom)).replace("ANG",str(angle)).replace("PLU",str(plug)).replace("REP", 
+                                                            str(repetition)).replace("TYPE",str(cal_type))
 
-    return meas_parameters["cal_data_file"]
+        return meas_parameters["cal_ph_data_file"]
 
 def _save_json_exp(meas_parameters, config_folder = "Config/", iteration = None):
     """Save "measurement configuration parameters" dictionary to JSON file.
@@ -652,7 +655,7 @@ def _save_json_exp(meas_parameters, config_folder = "Config/", iteration = None)
         os.makedirs(os.path.dirname(out_path))
     with open(out_path + file_name, 'w') as fp:
         json.dump(meas_parameters, fp, sort_keys=True, indent=4)
-    print "\r Saved JSON file for: ", file_name
+    tqdm.write( "".join(("\r Saved JSON file for: ", str(file_name))) )
     if original_it is not None:
         meas_parameters["iter"] = original_it
 
@@ -682,8 +685,12 @@ def _save_json_cal(meas_parameters, cal_type = 1, config_folder = "Config/", ite
         original_it = meas_parameters["iter"]
         meas_parameters["iter"] = iteration
 
-    out_path = meas_parameters["cal_data_file"].partition("Calibration")[0] + config_folder
-    file_name = os.path.basename(meas_parameters["cal_data_file"]).replace("ITE",str(iteration)).replace(".adc"," Type {}.json".format(cal_type))
+    if cal_type < 4:
+        out_path = meas_parameters["cal_data_file"].partition("Calibration")[0] + config_folder
+        file_name = os.path.basename(meas_parameters["cal_data_file"]).replace("ITE",str(iteration)).replace(".adc"," Type {}.json".format(cal_type))
+    else:
+        out_path = meas_parameters["cal_ph_data_file"].partition("Calibration")[0] + config_folder
+        file_name = os.path.basename(meas_parameters["cal_ph_data_file"]).replace("ITE",str(iteration)).replace(".adc"," Type {}.json".format(cal_type))
 
     meas_parameters["cal_type"] = cal_type
 
@@ -693,7 +700,7 @@ def _save_json_cal(meas_parameters, cal_type = 1, config_folder = "Config/", ite
         os.makedirs(os.path.dirname(out_path))
     with open(out_path + file_name, 'w') as fp:
         json.dump(meas_parameters, fp, sort_keys=True, indent=4)
-    print "\r Saved JSON file for: ", file_name
+    tqdm.write("".join(("\r Saved JSON file for: ", str(file_name))) )
     if original_it is not None:
         meas_parameters["iter"] = original_it
 
@@ -737,8 +744,8 @@ if __name__ == '__main__':
                     "cal_data_file" : "{}/Documents/Documents McGill/Data/PScope/DATE/Calibration/Type TYPE/Rep REP/Iter ITE/Calibration Type TYPE Rep REP Iter ITE.adc".format(os.environ['USERPROFILE']),
                     "cal_fft_file" : "{}/Documents/Documents McGill/Data/PScope/DATE/Calibration/Type TYPE/Rep REP/Iter ITE/Calibration Type TYPE Rep REP Iter ITE.fft".format(os.environ['USERPROFILE']),
 
-                    "cal_ph_data_file" : "{}/Documents/Documents McGill/Data/PScope/DATE/Calibration/Type TYPE/Phantom PHA/ANG deg/Plug PLU/Rep REP/Iter ITE/Calibration Type TYPE Phantom PHA Plug PLU ANG deg FREQMHz ANTPAIR Rep REP Iter ITE.adc".format(os.environ['USERPROFILE']),
-                    "cal_ph_fft_file" : "{}/Documents/Documents McGill/Data/PScope/DATE/Calibration/Type TYPE/Phantom PHA/ANG deg/Plug PLU/Rep REP/Iter ITE/Calibration Type TYPE Phantom PHA Plug PLU ANG deg FREQMHz ANTPAIR Rep REP Iter ITE.fft".format(os.environ['USERPROFILE']),
+                    "cal_ph_data_file" : "{}/Documents/Documents McGill/Data/PScope/DATE/Calibration/Type TYPE/Phantom PHA/ANG deg/Plug PLU/Rep REP/Iter ITE/Calibration Type TYPE Phantom PHA Plug PLU ANG deg Rep REP Iter ITE.adc".format(os.environ['USERPROFILE']),
+                    "cal_ph_fft_file" : "{}/Documents/Documents McGill/Data/PScope/DATE/Calibration/Type TYPE/Phantom PHA/ANG deg/Plug PLU/Rep REP/Iter ITE/Calibration Type TYPE Phantom PHA Plug PLU ANG deg Rep REP Iter ITE.fft".format(os.environ['USERPROFILE']),
 
                     "folder_path" : None,
                     "file_name" : None,
