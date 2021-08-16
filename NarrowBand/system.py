@@ -283,7 +283,7 @@ def ant_sweep_alt(meas_parameters, window = 'hann', do_plot = False, do_FFT = Fa
     spi_registers = meas_parameters["spi_registers"]
     verbose = meas_parameters["verbose"]
 
-    freq_range = meas_parameters["freq_range"]=
+    freq_range = meas_parameters["freq_range"]
 
     window = meas_parameters["fft_window"]
 

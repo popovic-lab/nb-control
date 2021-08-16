@@ -1,8 +1,8 @@
 # Python 2.7
 # 2021-05-19
 
-# Version 4.0.3
-# Last updated on 2021-08-15
+# Version 4.0.2
+# Last updated on 2021-08-12
 
 # Leonardo Fortaleza (leonardo.fortaleza@mail.mcgill.ca)
 
@@ -122,15 +122,15 @@ MeasParameters ={
 # Edit the pertinent parts here!
 
 # 1 - Phantom details (Phantom, Angle, Plug, Repetition), how many sequential Iterations, observations.
-# 2 - Calibration sequence (types 1, 2, 3, 4)
+# 2 - Calibration sequence (types 1, 2, 3)
 # 3 - Phantom scan sequence
 #-------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 # Phantom details - Reinforcing values
 # IMPORTANT: When using Phantom 1, RF needs 6 dB attenuator, LO can use 20 dB attenuator (could be a bit less - remembering to use amplified Tx for LO)
-MeasParameters["Phantom"] = 0
+MeasParameters["Phantom"] = 2
 MeasParameters["Angle"] = 0
-MeasParameters["Plug"] = 0
+MeasParameters["Plug"] = 2
 
 MeasParameters["rep"] = 1
 MeasParameters["iter"] = 5
