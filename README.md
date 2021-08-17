@@ -81,7 +81,11 @@ https://marketplace.visualstudio.com/items?itemName=ms-python.python
 
 ### 2.1) Powershell (optional)
 
-VSCode also suggests installing the latest Powershell Terminal (as of this writing, v7.1):
+VSCode also suggests installing the latest Powershell Terminal (as of this writing, v7.1.4):
+
+https://github.com/PowerShell/powershell/releases
+
+For more information:
 
 https://docs.microsoft.com/en-us/powershell/scripting/install/installing-powershell?view=powershell-7.1
 
@@ -113,7 +117,7 @@ https://code.visualstudio.com/docs/python/python-tutorial
 
 ## 3.0) Install Demo Board Software for Transmitter and Receiver
 
- The Python modules require some drivers that are only downloaded to the computer with the presence of the demo board software and a recognized legitimate control board connected via USB.
+The Python modules require some drivers that are only downloaded to the computer with the presence of the demo board software and a recognized legitimate control board connected via USB.
 ### 3.1) QuikEval and PLLWizard (Frequency Synthesizer Demo Board DC1705C for LTC6946)
 
 Should be installed before plugging in the DC590B control board through the USB port.
@@ -190,11 +194,11 @@ https://github.com/STMicroelectronics/STM32CubeF4
 
 # Use with VSCode
 
-Open a new workspace and the folder `nb-control/`. Then open the file `narrow_band_system_script.py`.
+Open a new workspace and the folder `nb-control/`. Then open the file `scripts/narrow_band_system_script.py`.
 
 The script should be configured in the `MeasParameters` dictionary and the `Phantom details - Reinforcing values` sections.
 
-The script should be manually edited after each mesurement, by uncommenting the appropriate lines and commenting (with a `#`) the other lines in the calibration rounds and actual measurements lines.
+The script should be manually edited after each mesurement, by uncommenting the appropriate lines and commenting (with a `#`) the other lines in the calibration rounds and actual measurements lines. On VSCode for Windows, keyboard shortcut for commenting in Python is `CTRL + /`.
 
 Before running the script, the USB hub should be connected between computer and narrowband system. The latter also needs to be powered on (**ATTENTION** to the voltages!).
 

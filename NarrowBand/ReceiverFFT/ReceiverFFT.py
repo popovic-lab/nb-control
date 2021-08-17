@@ -35,9 +35,9 @@
 import sys
 import os
 # checks proper folder for Linear Lab Tools and adds to path
-lltpath = '%UserProfile%/Documents/Analog Devices/linear_lab_tools64/python/'
+lltpath = '{}/Documents/Analog Devices/linear_lab_tools64/python/'.format(os.environ['USERPROFILE'])
 if not os.path.exists(os.path.dirname(lltpath)):
-    lltpath = '%UserProfile%/Documents/linear_technology/linear_lab_tools64/python/'
+    lltpath = '{}/Documents/linear_technology/linear_lab_tools64/python/'.format(os.environ['USERPROFILE'])
 sys.path.insert(1,lltpath)
 
 #import llt.common.exceptions as err

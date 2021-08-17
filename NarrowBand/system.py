@@ -1,8 +1,8 @@
 # Python 2.7
 # 2020-09-04
 
-# Version 4.0.2
-# Last updated on 2021-08-12
+# Version 4.0.3
+# Last updated on 2021-08-17
 
 # Leonardo Fortaleza (leonardo.fortaleza@mail.mcgill.ca)
 
@@ -415,7 +415,7 @@ def cal_system(meas_parameters, do_plot = False, cal_type  = 1, do_FFT = False, 
                 ch0,ch1 = controller.collect(num_samples, consts.TRIGGER_NONE)
                 if do_plot:
                     tqdm.write("\rPlotting calibration for grounded LO and RF:", end="")
-                    rfft.plot_channels(controller.get_num_bits(), window, 
+                    rfft.plot_channels(controller.get_num_bits(), window,
                                         ch0, ch1,
                                         verbose=verbose)
                 rfft.save_for_pscope(data_file.replace("ITE",str(j)).replace(".adc"," LO GND RF GND.adc"), controller.num_bits, controller.is_bipolar, num_samples,
@@ -521,10 +521,10 @@ def cal_system(meas_parameters, do_plot = False, cal_type  = 1, do_FFT = False, 
                             rfft.plot_channels(controller.get_num_bits(), window,
                                                 ch0, ch1,
                                                 verbose=verbose)
-                        rfft.save_for_pscope(data_file.replace("ITE",str(j)).replace(".adc"," Tx {0:d} Rx {1:d} FREQMHz.adc".format(TX,RX).replace("FREQ",f_cur)),
+                        rfft.save_for_pscope(data_file.replace("ITE",str(j)).replace("FREQ",f_cur),
                                             controller.num_bits, controller.is_bipolar, num_samples, 'DC_1513B-AA', 'LTM9004', ch0, ch1)
                         if do_FFT:
-                            rfft.save_for_pscope_fft(data_file.replace(".adc",".fft").replace("ITE",str(j)).replace(".fft"," Tx {0:d} Rx {1:d} FREQMHz.fft".format(TX,RX).replace("FREQ",f_cur)),
+                            rfft.save_for_pscope_fft(data_file.replace(".adc",".fft").replace("ITE",str(j)).replace("FREQ",f_cur),
                                                     controller.num_bits, controller.is_bipolar, num_samples, 'DC_1513B-AA', 'LTM9004', window, ch0, ch1)
 
                 if save_json and j != ite:
@@ -687,10 +687,10 @@ def _save_json_cal(meas_parameters, cal_type = 1, config_folder = "Config/", ite
 
     if cal_type < 4:
         out_path = meas_parameters["cal_data_file"].partition("Calibration")[0] + config_folder
-        file_name = os.path.basename(meas_parameters["cal_data_file"]).replace("ITE",str(iteration)).replace(".adc"," Type {}.json".format(cal_type))
+        file_name = os.path.basename(meas_parameters["cal_data_file"]).replace("ITE",str(iteration)).replace(".adc",".json")
     else:
         out_path = meas_parameters["cal_ph_data_file"].partition("Calibration")[0] + config_folder
-        file_name = os.path.basename(meas_parameters["cal_ph_data_file"]).replace("ITE",str(iteration)).replace(".adc"," Type {}.json".format(cal_type))
+        file_name = os.path.basename(meas_parameters["cal_ph_data_file"]).replace("ANTPAIR FREQMHz","").replace("ITE",str(iteration)).replace(".adc",".json")
 
     meas_parameters["cal_type"] = cal_type
 
@@ -738,14 +738,14 @@ if __name__ == '__main__':
                     "samp_rate" : 125*1e6,
                     "fft_window" : "hann",
 
-                    "data_file" : "{}/Documents/Documents McGill/Data/PScope/DATE/Phantom PHA/ANG deg/Plug PLU/Rep REP/Iter ITE/Phantom PHA Plug PLU ANG deg FREQMHz ANTPAIR Rep REP Iter ITE.adc".format(os.environ['USERPROFILE']),
-                    "fft_file" : "{}/Documents/Documents McGill/Data/PScope/DATE/Phantom PHA/ANG deg/Plug PLU/Rep REP/Iter ITE/Phantom PHA Plug PLU ANG deg FREQMHz ANTPAIR Rep REP Iter ITE.fft".format(os.environ['USERPROFILE']),
+                    "data_file" : "{}/Documents/Documents McGill/Data/PScope/DATE/Phantom PHA/ANG deg/Plug PLU/Rep REP/Iter ITE/Phantom PHA Plug PLU ANG deg Rep REP Iter ITE ANTPAIR FREQMHz.adc".format(os.environ['USERPROFILE']),
+                    "fft_file" : "{}/Documents/Documents McGill/Data/PScope/DATE/Phantom PHA/ANG deg/Plug PLU/Rep REP/Iter ITE/Phantom PHA Plug PLU ANG deg Rep REP Iter ITE ANTPAIR FREQMHz.fft".format(os.environ['USERPROFILE']),
 
                     "cal_data_file" : "{}/Documents/Documents McGill/Data/PScope/DATE/Calibration/Type TYPE/Rep REP/Iter ITE/Calibration Type TYPE Rep REP Iter ITE.adc".format(os.environ['USERPROFILE']),
                     "cal_fft_file" : "{}/Documents/Documents McGill/Data/PScope/DATE/Calibration/Type TYPE/Rep REP/Iter ITE/Calibration Type TYPE Rep REP Iter ITE.fft".format(os.environ['USERPROFILE']),
 
-                    "cal_ph_data_file" : "{}/Documents/Documents McGill/Data/PScope/DATE/Calibration/Type TYPE/Phantom PHA/ANG deg/Plug PLU/Rep REP/Iter ITE/Calibration Type TYPE Phantom PHA Plug PLU ANG deg Rep REP Iter ITE.adc".format(os.environ['USERPROFILE']),
-                    "cal_ph_fft_file" : "{}/Documents/Documents McGill/Data/PScope/DATE/Calibration/Type TYPE/Phantom PHA/ANG deg/Plug PLU/Rep REP/Iter ITE/Calibration Type TYPE Phantom PHA Plug PLU ANG deg Rep REP Iter ITE.fft".format(os.environ['USERPROFILE']),
+                    "cal_ph_data_file" : "{}/Documents/Documents McGill/Data/PScope/DATE/Calibration/Type TYPE/Phantom PHA/ANG deg/Plug PLU/Rep REP/Iter ITE/Calibration Type TYPE Phantom PHA Plug PLU ANG deg Rep REP Iter ITE ANTPAIR FREQMHz.adc".format(os.environ['USERPROFILE']),
+                    "cal_ph_fft_file" : "{}/Documents/Documents McGill/Data/PScope/DATE/Calibration/Type TYPE/Phantom PHA/ANG deg/Plug PLU/Rep REP/Iter ITE/Calibration Type TYPE Phantom PHA Plug PLU ANG deg Rep REP Iter ITE ANTPAIR FREQMHz.fft".format(os.environ['USERPROFILE']),
 
                     "folder_path" : None,
                     "file_name" : None,

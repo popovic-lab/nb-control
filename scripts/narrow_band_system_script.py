@@ -1,8 +1,8 @@
 # Python 2.7
 # 2021-05-19
 
-# Version 4.0.2
-# Last updated on 2021-08-12
+# Version 4.0.3
+# Last updated on 2021-08-17
 
 # Leonardo Fortaleza (leonardo.fortaleza@mail.mcgill.ca)
 
@@ -20,7 +20,7 @@ import os, sys
 # in case the modules need to be inserted in system path (script folder outside rest of module):
 # may replace 'os.path.dirname(os.path.abspath(__file__))' with 'os.path.abspath('%UserProfile%/Documents/nb-control/')' or another path as required
 #sys.path.insert(1, os.path.dirname(os.path.abspath(__file__)))
-#sys.path.insert(1, os.path.dirname(os.path.abspath('{}/Documents/Github/nb-control/nb-control/'.format(os.environ['USERPROFILE']) ) ) )
+#sys.path.insert(1, os.path.dirname(os.path.abspath('{}/Documents/Github/nb-control/nb-control/NarrowBand/'.format(os.environ['USERPROFILE']) ) ) )
 sys.path.insert(1, os.path.dirname(os.path.abspath('C:/Users/leofo/Documents/Github/nb-control/nb-control/NarrowBand') ) )
 
 # Local application imports
@@ -80,14 +80,14 @@ MeasParameters ={
                     "samp_rate" : 125*1e6,
                     "fft_window" : "hann",
 
-                    "data_file" : "{}/OneDrive - McGill University/Documents McGill/Data/PScope/DATE/Phantom PHA/ANG deg/Plug PLU/Rep REP/Iter ITE/Phantom PHA Plug PLU ANG deg ANTPAIR FREQMHz Rep REP Iter ITE.adc".format(os.environ['USERPROFILE']),
-                    "fft_file" : "{}/OneDrive - McGill University/Documents McGill/Data/PScope/DATE/Phantom PHA/ANG deg/Plug PLU/Rep REP/Iter ITE/Phantom PHA Plug PLU ANG deg ANTPAIR FREQMHz Rep REP Iter ITE.fft".format(os.environ['USERPROFILE']),
+                    "data_file" : "{}/OneDrive - McGill University/Documents McGill/Data/PScope/DATE/Phantom PHA/ANG deg/Plug PLU/Rep REP/Iter ITE/Phantom PHA Plug PLU ANG deg Rep REP Iter ITE ANTPAIR FREQMHz.adc".format(os.environ['USERPROFILE']),
+                    "fft_file" : "{}/OneDrive - McGill University/Documents McGill/Data/PScope/DATE/Phantom PHA/ANG deg/Plug PLU/Rep REP/Iter ITE/Phantom PHA Plug PLU ANG deg Rep REP Iter ITE ANTPAIR FREQMHz.fft".format(os.environ['USERPROFILE']),
 
                     "cal_data_file" : "{}/OneDrive - McGill University/Documents McGill/Data/PScope/DATE/Calibration/Type TYPE/Rep REP/Iter ITE/Calibration Type TYPE Rep REP Iter ITE.adc".format(os.environ['USERPROFILE']),
                     "cal_fft_file" : "{}/OneDrive - McGill University/Documents McGill/Data/PScope/DATE/Calibration/Type TYPE/Rep REP/Iter ITE/Calibration Type TYPE Rep REP Iter ITE.fft".format(os.environ['USERPROFILE']),
 
-                    "cal_ph_data_file" : "{}/OneDrive - McGill University/Documents McGill/Data/PScope/DATE/Calibration/Type TYPE/Phantom PHA/ANG deg/Plug PLU/Rep REP/Iter ITE/Calibration Phantom PHA Plug PLU ANG deg Rep REP Iter ITE.adc".format(os.environ['USERPROFILE']),
-                    "cal_ph_fft_file" : "{}/OneDrive - McGill University/Documents McGill/Data/PScope/DATE/Calibration/Type TYPE/Phantom PHA/ANG deg/Plug PLU/Rep REP/Iter ITE/Calibration Phantom PHA Plug PLU ANG deg Rep REP Iter ITE.fft".format(os.environ['USERPROFILE']),
+                    "cal_ph_data_file" : "{}/OneDrive - McGill University/Documents McGill/Data/PScope/DATE/Calibration/Type TYPE/Phantom PHA/ANG deg/Plug PLU/Rep REP/Iter ITE/Calibration Type TYPE Phantom PHA Plug PLU ANG deg Rep REP Iter ITE FREQMHz ANTPAIR.adc".format(os.environ['USERPROFILE']),
+                    "cal_ph_fft_file" : "{}/OneDrive - McGill University/Documents McGill/Data/PScope/DATE/Calibration/Type TYPE/Phantom PHA/ANG deg/Plug PLU/Rep REP/Iter ITE/Calibration Type TYPE Phantom PHA Plug PLU ANG deg Rep REP Iter ITE FREQMHz ANTPAIR.fft".format(os.environ['USERPROFILE']),
 
                     "date" : now.strftime("%Y_%m_%d"),
 
@@ -193,6 +193,8 @@ nbsys.cal_system(meas_parameters = MeasParameters, cal_type  = 1, do_plot = Fals
 #MeasParameters["attLO"] = 20
 #MeasParameters["attRF"] = 9 # skinless phantoms (1)
 #MeasParameters["attRF"] = 0 # phantoms with skin
+
+#MeasParameters["obs"] = "Baseline room interference measurement without microwave oven."
 
 #nbsys.cal_system(meas_parameters = MeasParameters, cal_type  = 4, do_plot = False, do_FFT = False, save_json = True)
 
