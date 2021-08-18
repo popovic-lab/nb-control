@@ -690,7 +690,7 @@ def _save_json_cal(meas_parameters, cal_type = 1, config_folder = "Config/", ite
         file_name = os.path.basename(meas_parameters["cal_data_file"]).replace("ITE",str(iteration)).replace(".adc",".json")
     else:
         out_path = meas_parameters["cal_ph_data_file"].partition("Calibration")[0] + config_folder
-        file_name = os.path.basename(meas_parameters["cal_ph_data_file"]).replace("ANTPAIR FREQMHz","").replace("ITE",str(iteration)).replace(".adc",".json")
+        file_name = os.path.basename(meas_parameters["cal_ph_data_file"]).replace(" ANTPAIR","").replace(" FREQMHz","").replace("ITE",str(iteration)).replace(".adc",".json")
 
     meas_parameters["cal_type"] = cal_type
 
