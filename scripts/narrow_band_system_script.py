@@ -17,11 +17,14 @@ from datetime import datetime
 import itertools as it
 import os, sys
 
+from pathlib2 import Path
+
 # in case the modules need to be inserted in system path (script folder outside rest of module):
 # may replace 'os.path.dirname(os.path.abspath(__file__))' with 'os.path.abspath('%UserProfile%/Documents/nb-control/')' or another path as required
 #sys.path.insert(1, os.path.dirname(os.path.abspath(__file__)))
 #sys.path.insert(1, os.path.dirname(os.path.abspath('{}/Documents/Github/nb-control/nb-control/NarrowBand/'.format(os.environ['USERPROFILE']) ) ) )
-sys.path.insert(1, os.path.dirname(os.path.abspath('C:/Users/leofo/Documents/Github/nb-control/nb-control/NarrowBand') ) )
+#sys.path.insert(1, os.path.dirname(os.path.abspath('C:/Users/leofo/Documents/Github/nb-control/nb-control/NarrowBand') ) )
+sys.path.insert(1, Path(__file__).resolve().parents[1]) # adds path of two folders up
 
 # Local application imports
 import NarrowBand.system as nbsys
