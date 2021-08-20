@@ -24,7 +24,7 @@ from pathlib2 import Path
 #sys.path.insert(1, os.path.dirname(os.path.abspath(__file__)))
 #sys.path.insert(1, os.path.dirname(os.path.abspath('{}/Documents/Github/nb-control/nb-control/NarrowBand/'.format(os.environ['USERPROFILE']) ) ) )
 #sys.path.insert(1, os.path.dirname(os.path.abspath('C:/Users/leofo/Documents/Github/nb-control/nb-control/NarrowBand') ) )
-sys.path.insert(1, Path(__file__).resolve().parents[1]) # adds path of two folders up
+sys.path.insert(1, str(Path(__file__).resolve().parents[1])) # adds path of two folders up
 
 # Local application imports
 import NarrowBand.system as nbsys
