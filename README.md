@@ -131,7 +131,9 @@ https://ltspice.analog.com/software/ltcqev.exe
 
 Run the exe file and follow instructions.
 
+---
 *UPDATE 2024:* Separate installation of .NET 3.5 seems required to make the drivers work on modern Windows (10/11):
+---
 
 https://www.microsoft.com/en-ca/download/details.aspx?id=22
 
