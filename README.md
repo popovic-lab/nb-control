@@ -120,6 +120,10 @@ https://code.visualstudio.com/docs/python/python-tutorial
 
 ## 3.0) Install Demo Board Software for Transmitter and Receiver
 
+---
+*UPDATE 2024:* These older drivers require disabling the security feature of Core Isolation Memory Integrity on Modern Windows (https://www.makeuseof.com/core-isolation-memory-integrity-windows/).
+---
+
 The Python modules require some drivers that are only downloaded to the computer with the presence of the demo board software and a recognized legitimate control board connected via USB.
 ### 3.1) QuikEval and PLLWizard (Frequency Synthesizer Demo Board DC1705C for LTC6946)
 
