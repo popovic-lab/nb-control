@@ -8,6 +8,9 @@ To maintain compatibility, the rest of the modules are also on Python 2.7.
 
 Modules were written for Windows OS.
 
+---
+*UPDATE 2024:*  Python 2.7 is now deprecated and this has since led to issues, specially with VS Code capabilities. The code is still functional, but it needs extra care.
+---
 
 # Dependencies:
 
@@ -128,15 +131,21 @@ https://ltspice.analog.com/software/ltcqev.exe
 
 Run the exe file and follow instructions.
 
+*UPDATE 2024:* Separate installation of .NET 3.5 seems required to make the drivers work on modern Windows (10/11):
+
+https://www.microsoft.com/en-ca/download/details.aspx?id=22
+
 For the PLLWizard, there are two possibilites:
 
 * If you have .NET >= 2.0 already installed or want the latest version to download directly from Microsoft:
 
 http://swdownloads.analog.com/pllwizard/pllwizardsetup.exe
 
-* If you don't have .NET 2.0 installed, this file includes it:
+The version with .NET 2.0 included does not work on modern Windows (10/11)
 
-http://swdownloads.analog.com/pllwizard/pllwizardsetup_withnet20.exe
+~~* If you don't have .NET 2.0 installed, this file includes it:~~
+
+~~http://swdownloads.analog.com/pllwizard/pllwizardsetup_withnet20.exe~~
 
 However the pllwizardsetup.exe is recommended for current Windows machines, because a more recent .NET version is most likely installed.
 
@@ -193,6 +202,19 @@ Also on Github:
 https://github.com/STMicroelectronics/STM32CubeF4
 
 # Use with VSCode
+
+---
+*Update 2024:* There are issues when using the deprecated Python 2.7. The best way to circumvent this is to run the scripts directly with the Anaconda prompt or command terminal.
+
+ I did not succeed in making VS Code work fully, although it might still be possible with further tinkering. One of the first things to do is install an older version of the Python plugin (https://stackoverflow.com/questions/72214043/how-to-debug-python-2-7-code-with-vs-code):
+
+* Open the Extensions pane from the bar on the left and find Python
+* Click on the gear icon and select "Install another version"
+* Choose 2021.9.1246542782.
+* After it's finished, restart VS Code or CTRL+Shift+P Reload Window.
+
+https://stackoverflow.com/questions/50202829/how-do-i-get-vscode-to-run-python-2-7-13-instead-of-python-3-6
+---
 
 Open a new workspace and the folder `nb-control/`. Then open the file `scripts/narrow_band_system_script.py`.
 

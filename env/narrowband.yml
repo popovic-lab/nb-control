@@ -3,16 +3,13 @@ channels:
   - defaults
   - conda-forge
 dependencies:
-  - pathlib
   - glob2
-  - tabulate
-  - pyautogui
+  - pathlib
   - pywin32
   - numpy
   - pathlib2
   - scipy
   - six
-  - openssl
   - hdf5
   - pylint
   - python=2.7
@@ -20,12 +17,8 @@ dependencies:
   - seaborn
   - pyserial
   - h5py
-  - pywinauto
   - matplotlib
   - pandas
-  - pip
   - jsonpickle
-  - ipykernel
-  - tqdm
-  - yaspin
+  - tqdm=4.6.3
 prefix: %UserProfile%\anaconda3\envs\narrowband
